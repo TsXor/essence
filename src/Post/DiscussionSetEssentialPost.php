@@ -7,31 +7,31 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Sticky\Post;
+namespace Flarum\Essence\Post;
 
 use Carbon\Carbon;
 use Flarum\Post\AbstractEventPost;
 use Flarum\Post\MergeableInterface;
 use Flarum\Post\Post;
 
-class DiscussionStickiedPost extends AbstractEventPost implements MergeableInterface
+class DiscussionSetEssentialPost extends AbstractEventPost implements MergeableInterface
 {
     /**
      * {@inheritdoc}
      */
-    public static $type = 'discussionStickied';
+    public static $type = 'discussionSetEssential';
 
     /**
      * {@inheritdoc}
      */
-    public function saveAfter(Post $previous = null)
+    public function saveAfter(Post $previous = null): static
     {
         // If the previous post is another 'discussion stickied' post, and it's
         // by the same user, then we can merge this post into it. If we find
         // that we've in fact reverted the sticky status, delete it. Otherwise,
         // update its content.
         if ($previous instanceof static && $this->user_id === $previous->user_id) {
-            if ($previous->content['sticky'] != $this->content['sticky']) {
+            if ($previous->content['essential'] != $this->content['essential']) {
                 $previous->delete();
             } else {
                 $previous->content = $this->content;
@@ -52,14 +52,14 @@ class DiscussionStickiedPost extends AbstractEventPost implements MergeableInter
      *
      * @param int $discussionId
      * @param int $userId
-     * @param bool $isSticky
+     * @param bool $isEssential
      * @return static
      */
-    public static function reply($discussionId, $userId, $isSticky)
+    public static function reply($discussionId, $userId, $isEssential)
     {
         $post = new static;
 
-        $post->content = static::buildContent($isSticky);
+        $post->content = static::buildContent($isEssential);
         $post->created_at = Carbon::now();
         $post->discussion_id = $discussionId;
         $post->user_id = $userId;
@@ -70,11 +70,11 @@ class DiscussionStickiedPost extends AbstractEventPost implements MergeableInter
     /**
      * Build the content attribute.
      *
-     * @param bool $isSticky Whether or not the discussion is stickied.
+     * @param bool $isEssential Whether or not the discussion is stickied.
      * @return array
      */
-    public static function buildContent($isSticky)
+    public static function buildContent($isEssential)
     {
-        return ['sticky' => (bool) $isSticky];
+        return ['essential' => (bool) $isEssential];
     }
 }

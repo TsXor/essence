@@ -1,5 +1,5 @@
 {
-    "name": "flarum/sticky",
+    "name": "flarum/essence",
     "description": "Pin discussions to the top of the list.",
     "type": "flarum-extension",
     "keywords": [
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Flarum\\Sticky\\": "src/"
+            "Flarum\\Essence\\": "src/"
         }
     },
     "extra": {
@@ -31,7 +31,7 @@
             "dev-main": "1.x-dev"
         },
         "flarum-extension": {
-            "title": "Sticky",
+            "title": "Essence",
             "category": "feature",
             "icon": {
                 "name": "fas fa-thumbtack",
@@ -67,7 +67,7 @@
     "prefer-stable": true,
     "autoload-dev": {
         "psr-4": {
-            "Flarum\\Sticky\\Tests\\": "tests/"
+            "Flarum\\Essence\\Tests\\": "tests/"
         }
     },
     "scripts": {

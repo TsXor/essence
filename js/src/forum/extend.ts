@@ -1,12 +1,12 @@
 import Extend from 'flarum/common/extenders';
 import Discussion from 'flarum/common/models/Discussion';
-import DiscussionStickiedPost from './components/DiscussionStickiedPost';
+import DiscussionSetEssentialPost from './components/DiscussionSetEssentialPost';
 
 export default [
   new Extend.PostTypes() //
-    .add('discussionStickied', DiscussionStickiedPost),
+    .add('discussionSetEssential', DiscussionSetEssentialPost),
 
   new Extend.Model(Discussion) //
-    .attribute<boolean>('isSticky')
-    .attribute<boolean>('canSticky'),
+    .attribute<boolean>('isEssential')
+    .attribute<boolean>('canSetEssential'),
 ];

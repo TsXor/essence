@@ -1,4 +1,4 @@
-flarum-sticky:
+flarum-essence:
 
   ##
   # UNIQUE KEYS - The following keys are used in only one location each.
@@ -9,29 +9,22 @@ flarum-sticky:
 
     # These translations are used in the Permissions page of the admin interface.
     permissions:
-      sticky_discussions_label: Sticky discussions
+      essential_discussions_label: Essential discussions
 
   # Translations in this namespace are used by the forum user interface.
   forum:
 
     # These translations are displayed as tooltips for discussion badges.
     badge:
-      sticky_tooltip: => flarum-sticky.ref.sticky
+      essential_tooltip: Essential
 
     # These translations are used by the discussion control buttons.
     discussion_controls:
-      sticky_button: => flarum-sticky.ref.sticky
-      unsticky_button: Unsticky
+      set_essential_button: Make essential
+      unset_essential_button: Discard essential
 
     # These translations are displayed between posts in the post stream.
     post_stream:
-      discussion_stickied_text: "{username} stickied the discussion {time}."
-      discussion_unstickied_text: "{username} unstickied the discussion {time}."
+      discussion_set_essential_text: "{username} set the discussion essential {time}."
+      discussion_unset_essential_text: "{username} unset the discussion essential {time}."
 
-  ##
-  # REUSED TRANSLATIONS - These keys should not be used directly in code!
-  ##
-
-  # Translations in this namespace are referenced by two or more unique keys.
-  ref:
-    sticky: Sticky

@@ -3,12 +3,16 @@ import { extend } from 'flarum/common/extend';
 import Discussion from 'flarum/common/models/Discussion';
 import Badge from 'flarum/common/components/Badge';
 
-export default function addStickyBadge() {
+export default function addEssentialBadge() {
   extend(Discussion.prototype, 'badges', function (badges) {
-    if (this.isSticky()) {
+    if (this.isEssential()) {
       badges.add(
-        'sticky',
-        <Badge type="sticky" label={app.translator.trans('flarum-sticky.forum.badge.sticky_tooltip')} icon="fas fa-thumbtack" />,
+        'essential',
+        <Badge
+          type="essential"
+          label={app.translator.trans('flarum-essence.forum.badge.essential_tooltip')}
+          icon="fas fa-star"
+        />,
         10
       );
     }

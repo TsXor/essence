@@ -4,20 +4,23 @@ import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import Button from 'flarum/common/components/Button';
 
-export default function addStickyControl() {
+export default function addEssentialStateControl() {
   extend(DiscussionControls, 'moderationControls', function (items, discussion) {
-    if (discussion.canSticky()) {
+    if (discussion.canSetEssential()) {
+      var action = discussion.isEssential() ? 'unset' : 'set';
       items.add(
-        'sticky',
-        <Button icon="fas fa-thumbtack" onclick={this.stickyAction.bind(discussion)}>
-          {app.translator.trans(`flarum-sticky.forum.discussion_controls.${discussion.isSticky() ? 'unsticky' : 'sticky'}_button`)}
+        'essence',
+        <Button icon="fas fa-star" onclick={this.filpEssentialStatusAction.bind(discussion)}>
+          {app.translator.trans(
+            `flarum-essence.forum.discussion_controls.${action}_essential_button`
+          )}
         </Button>
       );
     }
   });
 
-  DiscussionControls.stickyAction = function () {
-    this.save({ isSticky: !this.isSticky() }).then(() => {
+  DiscussionControls.filpEssentialStatusAction = function () {
+    this.save({ isEssential: !this.isEssential() }).then(() => {
       if (app.current.matches(DiscussionPage)) {
         app.current.get('stream').update();
       }

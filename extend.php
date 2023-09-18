@@ -14,13 +14,13 @@ use Flarum\Discussion\Event\Saving;
 use Flarum\Discussion\Filter\DiscussionFilterer;
 use Flarum\Discussion\Search\DiscussionSearcher;
 use Flarum\Extend;
-use Flarum\Sticky\Event\DiscussionWasStickied;
-use Flarum\Sticky\Event\DiscussionWasUnstickied;
-use Flarum\Sticky\Listener;
-use Flarum\Sticky\Listener\SaveStickyToDatabase;
-use Flarum\Sticky\PinStickiedDiscussionsToTop;
-use Flarum\Sticky\Post\DiscussionStickiedPost;
-use Flarum\Sticky\Query\StickyFilterGambit;
+use Flarum\Essence\Event\DiscussionWasSetEssential;
+use Flarum\Essence\Event\DiscussionWasUnsetEssential;
+use Flarum\Essence\Listener;
+use Flarum\Essence\Listener\SaveEssentialStateToDatabase;
+//use Flarum\Essence\PinEssenceDiscussionsToTop;
+use Flarum\Essence\Post\DiscussionSetEssentialPost;
+use Flarum\Essence\Query\EssentialFilterGambit;
 
 return [
     (new Extend\Frontend('forum'))
@@ -28,17 +28,17 @@ return [
         ->css(__DIR__.'/less/forum.less'),
 
     (new Extend\Model(Discussion::class))
-        ->cast('is_sticky', 'bool'),
+        ->cast('is_essential', 'bool'),
 
     (new Extend\Post())
-        ->type(DiscussionStickiedPost::class),
+        ->type(DiscussionSetEssentialPost::class),
 
     (new Extend\ApiSerializer(DiscussionSerializer::class))
-        ->attribute('isSticky', function (DiscussionSerializer $serializer, $discussion) {
-            return (bool) $discussion->is_sticky;
+        ->attribute('isEssential', function (DiscussionSerializer $serializer, $discussion) {
+            return (bool) $discussion->is_essential;
         })
-        ->attribute('canSticky', function (DiscussionSerializer $serializer, $discussion) {
-            return (bool) $serializer->getActor()->can('sticky', $discussion);
+        ->attribute('canSetEssential', function (DiscussionSerializer $serializer, $discussion) {
+            return (bool) $serializer->getActor()->can('set_essential', $discussion);
         }),
 
     (new Extend\ApiController(ListDiscussionsController::class))
@@ -50,14 +50,15 @@ return [
     new Extend\Locales(__DIR__.'/locale'),
 
     (new Extend\Event())
-        ->listen(Saving::class, SaveStickyToDatabase::class)
-        ->listen(DiscussionWasStickied::class, [Listener\CreatePostWhenDiscussionIsStickied::class, 'whenDiscussionWasStickied'])
-        ->listen(DiscussionWasUnstickied::class, [Listener\CreatePostWhenDiscussionIsStickied::class, 'whenDiscussionWasUnstickied']),
+        ->listen(Saving::class, SaveEssentialStateToDatabase::class)
+        ->listen(DiscussionWasSetEssential::class, [Listener\CreatePostWhenDiscussionIsSetEssential::class, 'whenDiscussionWasSetEssential'])
+        ->listen(DiscussionWasUnsetEssential::class, [Listener\CreatePostWhenDiscussionIsSetEssential::class, 'whenDiscussionWasUnsetEssential']),
 
     (new Extend\Filter(DiscussionFilterer::class))
-        ->addFilter(StickyFilterGambit::class)
-        ->addFilterMutator(PinStickiedDiscussionsToTop::class),
+        ->addFilter(EssentialFilterGambit::class),
+        // "essence" discussions does not needed to be pinned to top
+        //->addFilterMutator(PinEssentialDiscussionsToTop::class),
 
     (new Extend\SimpleFlarumSearch(DiscussionSearcher::class))
-        ->addGambit(StickyFilterGambit::class),
+        ->addGambit(EssentialFilterGambit::class),
 ];

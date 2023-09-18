@@ -1,11 +1,11 @@
 import app from 'flarum/admin/app';
 
-app.initializers.add('flarum-sticky', () => {
-  app.extensionData.for('flarum-sticky').registerPermission(
+app.initializers.add('flarum-essence', () => {
+  app.extensionData.for('flarum-essence').registerPermission(
     {
-      icon: 'fas fa-thumbtack',
-      label: app.translator.trans('flarum-sticky.admin.permissions.sticky_discussions_label'),
-      permission: 'discussion.sticky',
+      icon: 'fas fa-star',
+      label: app.translator.trans('flarum-sticky.admin.permissions.essential_discussions_label'),
+      permission: 'discussion.set_essential',
     },
     'moderate',
     95

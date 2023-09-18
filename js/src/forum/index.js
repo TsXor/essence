@@ -1,15 +1,15 @@
 import app from 'flarum/forum/app';
 
-import addStickyBadge from './addStickyBadge';
-import addStickyControl from './addStickyControl';
-import addStickyExcerpt from './addStickyExcerpt';
-import addStickyClass from './addStickyClass';
+import addEssentialBadge from './addEssentialBadge';
+import addEssentialStateControl from './addEssentialControl';
+import addEssentialExcerpt from './addEssentialExcerpt';
+import addEssentialClass from './addEssentialClass';
 
 export { default as extend } from './extend';
 
-app.initializers.add('flarum-sticky', () => {
-  addStickyBadge();
-  addStickyControl();
-  addStickyExcerpt();
-  addStickyClass();
+app.initializers.add('flarum-essence', () => {
+  addEssentialBadge();
+  addEssentialStateControl();
+  addEssentialExcerpt();
+  addEssentialClass();
 });

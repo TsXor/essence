@@ -7,7 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Sticky\Query;
+namespace Flarum\Essence\Query;
 
 use Flarum\Filter\FilterInterface;
 use Flarum\Filter\FilterState;
@@ -15,30 +15,30 @@ use Flarum\Search\AbstractRegexGambit;
 use Flarum\Search\SearchState;
 use Illuminate\Database\Query\Builder;
 
-class StickyFilterGambit extends AbstractRegexGambit implements FilterInterface
+class EssentialFilterGambit extends AbstractRegexGambit implements FilterInterface
 {
-    protected function getGambitPattern()
+    protected function getGambitPattern(): string
     {
-        return 'is:sticky';
+        return 'is:essential';
     }
 
-    protected function conditions(SearchState $search, array $matches, $negate)
+    protected function conditions(SearchState $search, array $matches, $negate): void
     {
         $this->constrain($search->getQuery(), $negate);
     }
 
     public function getFilterKey(): string
     {
-        return 'sticky';
+        return 'essential';
     }
 
-    public function filter(FilterState $filterState, $filterValue, $negate)
+    public function filter(FilterState $filterState, $filterValue, $negate): void
     {
         $this->constrain($filterState->getQuery(), $negate);
     }
 
     protected function constrain(Builder $query, bool $negate)
     {
-        $query->where('is_sticky', ! $negate);
+        $query->where('is_essential', ! $negate);
     }
 }
