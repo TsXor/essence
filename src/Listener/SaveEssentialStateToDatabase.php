@@ -25,7 +25,7 @@ class SaveEssentialStateToDatabase
             $discussion = $event->discussion;
             $actor = $event->actor;
 
-            $actor->assertCan('set_essential', $discussion);
+            $actor->assertCan('setEssential', $discussion);
 
             if ((bool) $discussion->is_essential === $isEssential) {
                 return;

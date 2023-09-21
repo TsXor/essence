@@ -28,6 +28,7 @@ return [
         ->css(__DIR__.'/less/forum.less'),
 
     (new Extend\Model(Discussion::class))
+        ->default('is_essential', false)
         ->cast('is_essential', 'bool'),
 
     (new Extend\Post())
@@ -38,7 +39,7 @@ return [
             return (bool) $discussion->is_essential;
         })
         ->attribute('canSetEssential', function (DiscussionSerializer $serializer, $discussion) {
-            return (bool) $serializer->getActor()->can('set_essential', $discussion);
+            return (bool) $serializer->getActor()->can('setEssential', $discussion);
         }),
 
     (new Extend\ApiController(ListDiscussionsController::class))
