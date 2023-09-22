@@ -7,7 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Essence\Query;
+namespace TsXor\Essence\Query;
 
 use Flarum\Filter\FilterInterface;
 use Flarum\Filter\FilterState;
@@ -39,6 +39,8 @@ class EssentialFilterGambit extends AbstractRegexGambit implements FilterInterfa
 
     protected function constrain(Builder $query, bool $negate)
     {
-        $query->where('is_essential', ! $negate);
+        if (!$negate) {
+            $query->whereNotNull('last_set_essential_at');
+        }
     }
 }

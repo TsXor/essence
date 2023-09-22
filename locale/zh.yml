@@ -9,25 +9,25 @@ flarum-essence:
 
     # These translations are used in the Permissions page of the admin interface.
     permissions:
-      essential_discussions_label: Set discussions essential
+      essential_discussions_label: 将讨论设为精华
 
   # Translations in this namespace are used by the forum user interface.
   forum:
 
     # These translations are displayed as tooltips for discussion badges.
     badge:
-      essential_tooltip: Essential
+      essential_tooltip: 精华
 
     discussion_hero:
-      essential_date: "last set to essential at {time}"
+      essential_date: "最近一次标为精华于{time}"
 
     # These translations are used by the discussion control buttons.
     discussion_controls:
-      set_essential_button: Make essential
-      unset_essential_button: Discard essential
+      set_essential_button: 设为精华
+      unset_essential_button: 撤销精华
 
     # These translations are displayed between posts in the post stream.
     post_stream:
-      discussion_set_essential_text: "{username} set the discussion essential {time}."
-      discussion_unset_essential_text: "{username} unset the discussion essential {time}."
+      discussion_set_essential_text: "{username}于{time}将此讨论设为精华。"
+      discussion_unset_essential_text: "{username}于{time}撤销此讨论的精华。"
 

@@ -7,6 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
+use Carbon\Carbon;
 use Flarum\Api\Controller\ListDiscussionsController;
 use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Discussion\Discussion;
@@ -14,13 +15,13 @@ use Flarum\Discussion\Event\Saving;
 use Flarum\Discussion\Filter\DiscussionFilterer;
 use Flarum\Discussion\Search\DiscussionSearcher;
 use Flarum\Extend;
-use Flarum\Essence\Event\DiscussionWasSetEssential;
-use Flarum\Essence\Event\DiscussionWasUnsetEssential;
-use Flarum\Essence\Listener;
-use Flarum\Essence\Listener\SaveEssentialStateToDatabase;
-//use Flarum\Essence\PinEssenceDiscussionsToTop;
-use Flarum\Essence\Post\DiscussionSetEssentialPost;
-use Flarum\Essence\Query\EssentialFilterGambit;
+use TsXor\Essence\Event\DiscussionWasSetEssential;
+use TsXor\Essence\Event\DiscussionWasUnsetEssential;
+use TsXor\Essence\Listener;
+use TsXor\Essence\Listener\SaveEssentialStateToDatabase;
+//use TsXor\Essence\PinEssenceDiscussionsToTop;
+use TsXor\Essence\Post\DiscussionSetEssentialPost;
+use TsXor\Essence\Query\EssentialFilterGambit;
 
 return [
     (new Extend\Frontend('forum'))
@@ -28,15 +29,20 @@ return [
         ->css(__DIR__.'/less/forum.less'),
 
     (new Extend\Model(Discussion::class))
-        ->default('is_essential', false)
-        ->cast('is_essential', 'bool'),
+        ->cast('last_set_essential_at', 'datetime'),
 
     (new Extend\Post())
         ->type(DiscussionSetEssentialPost::class),
 
     (new Extend\ApiSerializer(DiscussionSerializer::class))
         ->attribute('isEssential', function (DiscussionSerializer $serializer, $discussion) {
-            return (bool) $discussion->is_essential;
+            return ($discussion->last_set_essential_at !== null);
+        })
+        ->attribute('lastSetEssentialAt', function (DiscussionSerializer $serializer, $discussion) {
+            // ensure non-null return value
+            return ($discussion->last_set_essential_at !== null)
+                ? $discussion->last_set_essential_at
+                : Carbon::now();
         })
         ->attribute('canSetEssential', function (DiscussionSerializer $serializer, $discussion) {
             return (bool) $serializer->getActor()->can('setEssential', $discussion);

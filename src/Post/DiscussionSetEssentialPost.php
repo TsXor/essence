@@ -7,7 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Essence\Post;
+namespace TsXor\Essence\Post;
 
 use Carbon\Carbon;
 use Flarum\Post\AbstractEventPost;

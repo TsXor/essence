@@ -7,7 +7,7 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Essence\Event;
+namespace TsXor\Essence\Event;
 
 use Flarum\Discussion\Discussion;
 use Flarum\User\User;

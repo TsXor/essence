@@ -7,11 +7,12 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Essence\Listener;
+namespace TsXor\Essence\Listener;
 
+use Carbon\Carbon;
 use Flarum\Discussion\Event\Saving;
-use Flarum\Essence\Event\DiscussionWasSetEssential;
-use Flarum\Essence\Event\DiscussionWasUnsetEssential;
+use TsXor\Essence\Event\DiscussionWasSetEssential;
+use TsXor\Essence\Event\DiscussionWasUnsetEssential;
 
 class SaveEssentialStateToDatabase
 {
@@ -27,14 +28,14 @@ class SaveEssentialStateToDatabase
 
             $actor->assertCan('setEssential', $discussion);
 
-            if ((bool) $discussion->is_essential === $isEssential) {
+            if (($discussion->last_set_essential_at !== null) === $isEssential) {
                 return;
             }
 
-            $discussion->is_essential = $isEssential;
+            $discussion->last_set_essential_at = $isEssential ? Carbon::now() : null;
 
             $discussion->raise(
-                $discussion->is_essential
+                $isEssential
                     ? new DiscussionWasSetEssential($discussion, $actor)
                     : new DiscussionWasUnsetEssential($discussion, $actor)
             );

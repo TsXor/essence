@@ -7,12 +7,12 @@
  * LICENSE file that was distributed with this source code.
  */
 
-namespace Flarum\Essence\Listener;
+namespace TsXor\Essence\Listener;
 
 use Flarum\Discussion\Discussion;
-use Flarum\Essence\Event\DiscussionWasSetEssential;
-use Flarum\Essence\Event\DiscussionWasUnsetEssential;
-use Flarum\Essence\Post\DiscussionSetEssentialPost;
+use TsXor\Essence\Event\DiscussionWasSetEssential;
+use TsXor\Essence\Event\DiscussionWasUnsetEssential;
+use TsXor\Essence\Post\DiscussionSetEssentialPost;
 use Flarum\User\User;
 
 class CreatePostWhenDiscussionIsSetEssential
